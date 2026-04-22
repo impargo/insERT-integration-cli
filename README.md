@@ -2,18 +2,22 @@
 
 Simple TypeScript example for the full insERT OAuth flow and a first Subiekt123 API smoke test.
 
-## Prerequisites
+---
+
+## Developer Setup
+
+### Prerequisites
 
 - Node.js 18+
 - yarn
 
-## Install
+### Install
 
 ```bash
 yarn install
 ```
 
-## Quick start
+### Quick start
 
 Set environment variables:
 
@@ -31,7 +35,7 @@ Run the full flow:
 yarn dev
 ```
 
-## What it does
+### What it does
 
 - Generates PKCE
 - Opens the login page
@@ -40,25 +44,58 @@ yarn dev
 - Saves the token to `.insert-token.json`
 - Calls the documents endpoint and prints the JSON
 
-## Troubleshooting
-
-### `invalid_grant`
-
-Usually means the code expired, was reused, or the redirect URI does not exactly match the app configuration. Restart the flow and finish login quickly.
-
-### `invalid_client`
-
-Usually means the client ID or client secret is wrong, or the OAuth app is misconfigured.
-
-### API `401`
-
-The access token is missing, invalid, or expired. Re-run the full flow to get a fresh token.
-
-### API `403`
-
-Usually points to a bad, missing, or inactive subscription key.
-
-## Security notes
+### Security notes
 
 - `.env` and `.insert-token.json` are ignored by git
 - secrets should stay in environment variables
+
+---
+
+## Task / Problem Description
+
+### Objective
+
+Fix the OAuth setup and/or the CLI tool so that the entire flow runs successfully **once**, from start to finish:
+
+```bash
+yarn dev
+```
+
+Should complete without errors and return:
+1. A valid access token saved to `.insert-token.json`
+2. A successful API response with the documents list printed as JSON
+
+### The Issue
+
+When a user follows the authorization link, logs in, and clicks "authorize", an internal server error occurs instead of redirecting back to the local callback endpoint with an authorization code.
+
+### Application Setup
+
+The application is configured with:
+- OAuth app client ID and secret
+- Callback URL set to `http://localhost:9876/callback`
+- All required scopes
+
+See **Screenshot 1** for the OAuth application configuration:
+
+![Application Setup](static/screenshot_1_setup_application.png)
+
+### Error Observed
+
+After successful login and authorization consent, the browser shows an internal server error instead of redirecting to the callback endpoint.
+
+See **Screenshot 2** for the error that occurs:
+
+![Auth Error](static/screenshot_2_auth_error.gif)
+
+### What Should Happen
+
+1. User clicks the authorization link printed by the CLI
+2. Browser opens the identity server login page
+3. User logs in and grants consent
+4. Browser redirects to `http://localhost:9876/callback?code=<auth_code>&state=<state>`
+5. The local callback server captures the code
+6. The CLI exchanges the code for a token
+7. The CLI calls the documents API and prints the result
+
+
