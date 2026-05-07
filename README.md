@@ -73,7 +73,7 @@ When a user follows the authorization link, logs in, and clicks "authorize", an 
 
 The application is configured with:
 - OAuth app client ID and secret
-- Callback URL set to `http://localhost:9876/callback`
+- Callback URL set to `https://localhost:9876/callback`
 - All required scopes
 
 See **Screenshot 1** for the OAuth application configuration:
@@ -93,7 +93,7 @@ See **Screenshot 2** for the error that occurs:
 1. User clicks the authorization link printed by the CLI
 2. Browser opens the identity server login page
 3. User logs in and grants consent
-4. Browser redirects to `http://localhost:9876/callback?code=<auth_code>&state=<state>`
+4. Browser redirects to `https://localhost:9876/callback?code=<auth_code>&state=<state>`
 5. The local callback server captures the code
 6. The CLI exchanges the code for a token
 7. The CLI calls the documents API and prints the result

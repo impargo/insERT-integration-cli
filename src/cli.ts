@@ -8,7 +8,7 @@ const CONFIG = {
     authorizeUrl: 'https://kontoapi.insert.com.pl/connect/authorize',
     tokenUrl: 'https://kontoapi.insert.com.pl/connect/token',
     apiUrl: 'https://api.subiekt123.pl/1.0/documents?pageNumber=0&pageSize=5',
-    callbackUrl: 'http://localhost:9876/callback',
+    callbackUrl: 'https://localhost:9876/callback',
     scope: 'openid profile email subiekt123 offline_access',
     tokenFile: '.insert-token.json',
     timeoutMs: 120000
